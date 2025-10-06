@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Typing Hero</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="theme-1">
+  <!-- Landing -->
+  <section id="landing" class="hero">
+    <div class="hero-inner">
+      <h1 class="brand">Typing Hero</h1>
+
+      <form class="card" onsubmit="return false;">
+        <div class="grid">
+          <label>ชื่อ
+            <input id="firstName" autocomplete="given-name" placeholder="เช่น เอื้ออังกูร" autofocus />
+          </label>
+          <label>นามสกุล
+            <input id="lastName" autocomplete="family-name" placeholder="เช่น ทองดียิ่ง" />
+          </label>
+          <label>เลขที่
+            <input id="number" type="number" inputmode="numeric" placeholder="เช่น 1" />
+          </label>
+          <label>ห้อง
+            <input id="room" placeholder="เช่น ป.3/1" />
+          </label>
+        </div>
+
+        <p class="hint">ตัวอย่าง: <b>เอื้ออังกูร ทองดียิ่ง เลขที่ 2 ห้อง ป.3/1</b></p>
+        <button id="goBtn" type="button" class="primary lg">เริ่มฝึกพิมพ์</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- App -->
+  <div id="app" hidden>
+    <div class="wrap">
+      <header class="bar">
+        <h1>Typing Hero ฝึกใช้คียบอร์ด</h1>
+      </header>
+
+      <section class="panel">
+        <div class="controls">
+          <label>เลเวล
+            <select id="levelSelect">
+              <option value="1">1 – อุ่นนิ้ว คำสั้นพื้นฐาน</option>
+              <option value="2">2 – คำสลับมือซ้ายขวา</option>
+              <option value="3">3 – คำสั้นมีวรรณยุกต์</option>
+              <option value="4">4 – ชีวิตประจำวัน</option>
+              <option value="5">5 – สถานที่และสิ่งของ</option>
+            </select>
+          </label>
+          <button id="startBtn" class="primary" type="button">เริ่ม</button>
+          <button id="resetBtn" class="ghost" type="button">รีเซ็ต</button>
+          <button id="nextLevelBtn" class="accent" type="button" hidden>Level ต่อไป</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="label">CPM</div>
+            <div id="cpm" class="value">0</div>
+          </div>
+          <div class="stat">
+            <div class="label">Accuracy</div>
+            <div id="acc" class="value">100%</div>
+          </div>
+          <div class="stat">
+            <div class="label">Time</div>
+            <div id="time" class="value">00:00</div>
+          </div>
+        </div>
+
+        <div class="progressWrap">
+          <div id="progressBar"></div>
+        </div>
+
+        <div id="textDisplay" class="textDisplay" aria-live="polite"></div>
+        <input id="hiddenInput" class="hiddenInput" autocomplete="off" autocorrect="off" autocapitalize="off"
+          spellcheck="false" />
+        <p class="hint">กด “เริ่ม” แล้วพิมพ์ตามตัวที่ไฮไลต์</p>
+
+        <!-- Kedmanee-style on-screen keyboard (base layer + Shift layer on number row) -->
+        <div class="oskWrap">
+          <div class="oskHeader">
+            <span>คียบอร์ดอ้างอิง (Kedmanee)</span>
+            <button id="toggleOSK" class="ghost small" type="button">ซ่อน/แสดง</button>
+          </div>
+
+          <div id="osk" class="kbd">
+            <!-- Row 1: number row -->
+            <div class="row">
+              <button class="key" data-en="`" data-th="_" data-th-shift="%"><small>`</small><span>_</span></button>
+              <button class="key" data-en="1" data-th="ๅ" data-th-shift="+"><small>1</small><span>ๅ</span></button>
+              <button class="key" data-en="2" data-th="/" data-th-shift="๑"><small>2</small><span>/</span></button>
+              <button class="key" data-en="3" data-th="-" data-th-shift="๒"><small>3</small><span>-</span></button>
+              <button class="key" data-en="4" data-th="ภ" data-th-shift="๓"><small>4</small><span>ภ</span></button>
+              <button class="key" data-en="5" data-th="ถ" data-th-shift="๔"><small>5</small><span>ถ</span></button>
+              <button class="key" data-en="6" data-th="ุ" data-th-shift="ู"><small>6</small><span>ุ</span></button>
+              <button class="key" data-en="7" data-th="ึ" data-th-shift="฿"><small>7</small><span>ึ</span></button>
+              <button class="key" data-en="8" data-th="ค" data-th-shift="๕"><small>8</small><span>ค</span></button>
+              <button class="key" data-en="9" data-th="ต" data-th-shift="๖"><small>9</small><span>ต</span></button>
+              <button class="key" data-en="0" data-th="จ" data-th-shift="๗"><small>0</small><span>จ</span></button>
+              <button class="key" data-en="-" data-th="ข" data-th-shift="๘"><small>-</small><span>ข</span></button>
+              <button class="key" data-en="=" data-th="ช" data-th-shift="๙"><small>=</small><span>ช</span></button>
+              <button class="key wide ghost" data-special="backspace"><small>Backspace</small></button>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="row">
+              <button class="key xwide ghost" data-special="tab"><small>Tab</small></button>
+              <button class="key" data-en="q" data-th="ๆ" data-th-shift="๐"><small>q</small><span>ๆ</span></button>
+              <button class="key" data-en="w" data-th="ไ" data-th-shift='"'><small>w</small><span>ไ</span></button>
+              <button class="key" data-en="e" data-th="ำ" data-th-shift="ฎ"><small>e</small><span>ำ</span></button>
+              <button class="key" data-en="r" data-th="พ" data-th-shift="ฑ"><small>r</small><span>พ</span></button>
+              <button class="key" data-en="t" data-th="ะ" data-th-shift="ธ"><small>t</small><span>ะ</span></button>
+              <button class="key" data-en="y" data-th="ั" data-th-shift="ํ"><small>y</small><span>ั</span></button>
+              <button class="key" data-en="u" data-th="ี" data-th-shift="๊"><small>u</small><span>ี</span></button>
+              <button class="key" data-en="i" data-th="ร" data-th-shift="๋"><small>i</small><span>ร</span></button>
+              <button class="key" data-en="o" data-th="น" data-th-shift="ฯ"><small>o</small><span>น</span></button>
+              <button class="key" data-en="p" data-th="ย" data-th-shift="ญ"><small>p</small><span>ย</span></button>
+              <button class="key" data-en="[" data-th="บ" data-th-shift="ฐ"><small>[</small><span>บ</span></button>
+              <button class="key" data-en="]" data-th="ล" data-th-shift=","><small>]</small><span>ล</span></button>
+              <button class="key" data-en="\" data-th="ฃ" data-th-shift="ฅ"><small>\</small><span>ฃ</span></button>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="row">
+              <button class="key xxwide ghost" data-special="caps"><small>Caps Lock</small></button>
+              <button class="key" data-en="a" data-th="ฟ" data-th-shift="ฤ"><small>a</small><span>ฟ</span></button>
+              <button class="key" data-en="s" data-th="ห" data-th-shift="ฆ"><small>s</small><span>ห</span></button>
+              <button class="key" data-en="d" data-th="ก" data-th-shift="ฏ"><small>d</small><span>ก</span></button>
+              <button class="key" data-en="f" data-th="ด" data-th-shift="โ"><small>f</small><span>ด</span></button>
+              <button class="key" data-en="g" data-th="เ" data-th-shift="ฌ"><small>g</small><span>เ</span></button>
+              <button class="key" data-en="h" data-th="้" data-th-shift="็"><small>h</small><span>้</span></button>
+              <button class="key" data-en="j" data-th="่" data-th-shift="๋"><small>j</small><span>่</span></button>
+              <button class="key" data-en="k" data-th="า" data-th-shift="ษ"><small>k</small><span>า</span></button>
+              <button class="key" data-en="l" data-th="ส" data-th-shift="ศ"><small>l</small><span>ส</span></button>
+              <button class="key" data-en=";" data-th="ว" data-th-shift="ซ"><small>;</small><span>ว</span></button>
+              <button class="key" data-en="'" data-th="ง" data-th-shift="."><small>'</small><span>ง</span></button>
+              <button class="key xwide ghost" data-special="enter"><small>Enter</small></button>
+            </div>
+
+            <!-- Row 4 -->
+            <div class="row">
+              <button class="key xwide ghost" data-special="shift"><small>Shift</small></button>
+              <button class="key" data-en="z" data-th="ผ" data-th-shift="("><small>z</small><span>ผ</span></button>
+              <button class="key" data-en="x" data-th="ป" data-th-shift=")"><small>x</small><span>ป</span></button>
+              <button class="key" data-en="c" data-th="แ" data-th-shift="ฉ"><small>c</small><span>แ</span></button>
+              <button class="key" data-en="v" data-th="อ" data-th-shift="ฮ"><small>v</small><span>อ</span></button>
+              <button class="key" data-en="b" data-th="ิ" data-th-shift="ฺ"><small>b</small><span>ิ</span></button>
+              <button class="key" data-en="n" data-th="ื" data-th-shift="์"><small>n</small><span>ื</span></button>
+              <button class="key" data-en="m" data-th="ท" data-th-shift="?"><small>m</small><span>ท</span></button>
+              <button class="key" data-en="," data-th="ม" data-th-shift="ฒ"><small>,</small><span>ม</span></button>
+              <button class="key" data-en="." data-th="ใ" data-th-shift="ฬ"><small>.</small><span>ใ</span></button>
+              <button class="key" data-en="/" data-th="ฝ" data-th-shift="ฦ"><small>/</small><span>ฝ</span></button>
+              <button class="key xwide ghost" data-special="shift"><small>Shift</small></button>
+            </div>
+
+            <!-- Row 5 -->
+            <div class="row spaceRow">
+              <button class="key wide ghost"><small>Ctrl</small></button>
+              <button class="key wide ghost"><small>Alt</small></button>
+              <button class="key space ghost" data-special="space"><small>Space</small></button>
+              <button class="key wide ghost"><small>AltGr</small></button>
+              <button class="key wide ghost"><small>Ctrl</small></button>
+            </div>
+          </div>
+
+        </div>
+        <!-- /keyboard -->
+
+      </section>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
